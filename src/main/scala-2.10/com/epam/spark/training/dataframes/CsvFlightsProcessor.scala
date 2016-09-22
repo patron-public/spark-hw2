@@ -56,21 +56,23 @@ object CsvFlightsProcessor {
   }
 
 
+  def calulate(sqlContext: SQLContext) = {
+    import sqlContext.implicits._
+    flights.groupBy("carrier_id").count.sort($"count".desc).limit(5).show()
+    flights.filter(!(flights("cancelled"))).groupBy("carrier_id").count.sort($"count".desc).limit(5).show
+  }
+
   def main(args: Array[String]) {
 
     if (args.length != 2){
-      print("Please, use 2 parameters: [source file, dest file]")
+      print("Please, use 2 parameters: [source folder, dest file]")
       System.exit(1)
     }
 
     val sqlContext = getSqlContext()
-
     readFiles(sqlContext)
+    calulate(sqlContext)
 
-//    flights.groupBy("carrier_id").count.sort($"count".desc).limit(5).show()
-//    flights.filter(!(flights("cancelled"))).groupBy("carrier_id").count.sort($"count".desc).limit(5).show
-    flights.groupBy("carrier_id").count.show()
-    flights.filter(!(flights("cancelled"))).groupBy("carrier_id").count.show
   }
 
 
