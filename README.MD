@@ -1,0 +1,1 @@
+spark-submit --verbose --class com.epam.spark.training.dataframes.CsvFlightsProcessor --master local /home/hdfs/spark2_2.10-1.0.jar /dataset.txt /ss
